@@ -1,0 +1,25 @@
+.container {
+  margin: auto;
+  max-width: 800px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+.heading {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: rebeccapurple;
+}
+.nav-links {
+  display: inline-block;
+  list-style: none;
+  padding-left: 0;
+}
+.nav-link-item {
+  display: inline-block;
+  padding-right: 2rem;
+}
+.nav-link-text {
+  color: #7d87ff;
+  text-decoration: none;
+  font-size: 20px;
+}
