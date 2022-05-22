@@ -1,0 +1,61 @@
+---
+title: Convert KML by cli
+author: Ariel
+date: "2022-05-17"
+---
+
+> 奥维地图导出 kml 时，会将标注要素坐标转为 GCJ02(俗称，火星坐标)，所以必须转回 WGS84，后续才能使用。
+
+## 思路
+
+一开始我想直接用 python 转换 kml，搜了一圈没有找到合适的轮子。但是我找到了转换 geojson 坐标的[命令行工具](https://github.com/wandergis/coordtransform-cli)，所以决定先将 kml 转为 geojson.
+
+## kml 转 geojson
+
+安装 mapbox 开发的[命令行工具](https://github.com/mapbox/togeojson)
+
+```bash
+npm install -g @mapbox/togeojson
+```
+
+将 kml 转成 geojson
+
+```bash
+togeojson file.kml > file.geojson
+```
+
+## GCJ02 转 WGS84
+
+安装坐标转换命令行工具
+
+```bash
+npm install -g coordtransform-cli
+```
+
+转成 WGS84
+
+```bash
+coordtransform -t gcj02towgs84  file.geojson output.geojson
+```
+
+## geojson 转 kml
+
+这一步其实可有可无，用 qgis 的话直接用 geojson 就好了。但是 arcmap 对 json 不太友好，我导了两次都报错，所以还是转回 kml。
+
+这里一开始用了 mapbox 的[tokml](https://github.com/mapbox/tokml)，但是效果不好，所以改用[ogr2ogr](https://gdal.org/programs/ogr2ogr.html)。
+
+先装 GDAL
+
+```bash
+conda install -c conda-forge gdal
+```
+
+转 kml，大功告成～
+
+```bash
+ogr2ogr -f KML output.kml output.geojson
+```
+
+---
+
+上次写博客还是 Pre-COVID，时间一晃就过去 2 年多了，还是毫无长进:(
